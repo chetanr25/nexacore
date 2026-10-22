@@ -2,7 +2,10 @@ import { useState } from 'react'
 import './App.css'
 import { HomeView } from './features/home/HomeView'
 import { Layout } from './features/layout/Layout'
-import type { AppView, User } from './types'
+import type { AppView } from './shared/types/types'
+import type { User } from './features/users/types/types'
+import { products } from './data/products'
+import { ProductList } from './features/products/components/ProductList'
 
 const DEMO_USER: User = {
   name: 'Alex Rivera',
@@ -32,7 +35,7 @@ function App() {
       onSignOut={() => setUser(null)}
     >
       {view === 'home' && <HomeView />}
-      {view === 'products' && <PlaceholderPage title="Products" />}
+      {view === 'products' && <ProductList products={products} />}
       {view === 'cart' && <PlaceholderPage title="Your cart" />}
     </Layout>
   )

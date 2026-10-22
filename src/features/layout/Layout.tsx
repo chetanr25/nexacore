@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
-import type { AppView, User } from '../../types'
+import type { AppView } from '../../shared/types/types'
+import type { User } from '../users/types/types'
 import { Header } from './Header'
 
 type LayoutProps = {

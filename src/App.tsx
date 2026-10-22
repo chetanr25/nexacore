@@ -1,132 +1,41 @@
 import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
 import './App.css'
+import { HomeView } from './features/home/HomeView'
+import { Layout } from './features/layout/Layout'
+import type { AppView, User } from './types'
+
+const DEMO_USER: User = {
+  name: 'Alex Rivera',
+  avatarUrl:
+    'https://api.dicebear.com/9.x/avataaars/svg?seed=Alex&backgroundColor=b6e3f4',
+}
+
+function PlaceholderPage({ title }: { title: string }) {
+  return (
+    <section className="store-page">
+      <h1 className="store-page__title">{title}</h1>
+      <p className="store-empty">This section is not implemented yet.</p>
+    </section>
+  )
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [view, setView] = useState<AppView>('home')
+  const [user, setUser] = useState<User | null>(null)
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+    <Layout
+      user={user}
+      activeView={view}
+      onNavigate={setView}
+      onSignIn={() => setUser(DEMO_USER)}
+      onSignOut={() => setUser(null)}
+    >
+      {view === 'home' && <HomeView />}
+      {view === 'products' && <PlaceholderPage title="Products" />}
+      {view === 'cart' && <PlaceholderPage title="Your cart" />}
+    </Layout>
   )
 }
 
 export default App
-
-/***
- * Create layout
- * - User layout - This should mimic amazon
- * - Logo on the top left corner - next core
- * - Logged in user and the name displayed on the right side with the photo thumbnail - Loggout option 
- * - if the user is not logged in it should say guest and have option to signin. 
- * - Header - Click on products, view the products, click on cart to view the cart
- * 
- */

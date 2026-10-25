@@ -1,6 +1,6 @@
 export type User = {
     name: string
-    avatarUrl: string
+    role: 'admin' | 'user'
   }
 export type ApiUser = {
   id: number

@@ -30,13 +30,6 @@ export function Header({
         <div className="store-header__account">
           {user ? (
             <>
-              <img
-                src={user.avatarUrl}
-                alt=""
-                className="store-header__avatar"
-                width={32}
-                height={32}
-              />
               <span className="store-header__user-name">Hello, {user.name}</span>
               <button type="button" className="store-link-btn" onClick={onSignOut}>
                 Sign out
@@ -68,13 +61,15 @@ export function Header({
         >
           Cart
         </button>
-        <button
-          type="button"
-          className={`store-nav__link${activeView === 'users' ? ' is-active' : ''}`}
-          onClick={() => onNavigate('users')}
-        >
-          Users
-        </button>
+        {user?.role === 'admin' && (
+          <button
+            type="button"
+            className={`store-nav__link${activeView === 'users' ? ' is-active' : ''}`}
+            onClick={() => onNavigate('users')}
+          >
+            Users
+          </button>
+        )}
       </nav>
     </header>
   )

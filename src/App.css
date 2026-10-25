@@ -48,12 +48,6 @@
   font-size: 0.95rem;
 }
 
-.store-header__avatar {
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #febd69;
-}
-
 .store-header__user-name,
 .store-header__guest {
   color: #fff;

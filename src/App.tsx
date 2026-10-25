@@ -5,6 +5,7 @@ import { Layout } from './features/layout/Layout'
 import type { AppView } from './shared/types/types'
 import type { User } from './features/users/types/types'
 import { products } from './data/products'
+import { UserList } from './features/users/components/UserList'
 import { ProductList } from './features/products/components/ProductList'
 
 const DEMO_USER: User = {
@@ -36,6 +37,7 @@ function App() {
     >
       {view === 'home' && <HomeView />}
       {view === 'products' && <ProductList products={products} />}
+      {view === 'users' && <UserList />}
       {view === 'cart' && <PlaceholderPage title="Your cart" />}
     </Layout>
   )

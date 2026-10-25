@@ -1,1 +1,1 @@
-export type AppView = 'home' | 'products' | 'cart'
+export type AppView = 'home' | 'products' | 'cart' | 'users'

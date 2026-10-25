@@ -68,6 +68,13 @@ export function Header({
         >
           Cart
         </button>
+        <button
+          type="button"
+          className={`store-nav__link${activeView === 'users' ? ' is-active' : ''}`}
+          onClick={() => onNavigate('users')}
+        >
+          Users
+        </button>
       </nav>
     </header>
   )

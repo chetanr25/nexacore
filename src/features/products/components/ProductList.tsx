@@ -1,5 +1,6 @@
 import type { Product } from '../types/types'
 import './ProductList.css'
+import ProductService from '../services/ProductService';
 
 export type ProductCardProps = {
   product: Product

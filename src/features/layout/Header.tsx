@@ -1,5 +1,6 @@
-import { Link, NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import type { User } from '../users/types/types'
+import Menu from '../Menu'
 
 type HeaderProps = {
   user: User | null
@@ -33,8 +34,8 @@ export function Header({ user, onSignIn, onSignOut }: HeaderProps) {
           )}
         </div>
       </div>
-
-      <nav className="store-nav" aria-label="Main">
+          <Menu />
+      {/* <nav className="store-nav" aria-label="Main">
         <NavLink
           to="/products"
           className={({ isActive }) =>
@@ -61,7 +62,7 @@ export function Header({ user, onSignIn, onSignOut }: HeaderProps) {
             Users
           </NavLink>
         )}
-      </nav>
+      </nav> */}
     </header>
   )
 }

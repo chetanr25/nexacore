@@ -1,13 +1,19 @@
+import { useNavigate } from 'react-router-dom'
 import type { Product } from '../types/types'
 import './ProductList.css'
 
 export type ProductCardProps = {
   product: Product
+  onSelect: (id: number) => void
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, onSelect }: ProductCardProps) {
   return (
-    <article className="product-card">
+    <button
+      type="button"
+      className="product-card product-card--button"
+      onClick={() => onSelect(product.id)}
+    >
       <div className="product-card__image-wrap">
         <img
           className="product-card__image"
@@ -25,7 +31,7 @@ export function ProductCard({ product }: ProductCardProps) {
         {product.rating.count} reviews
       </p>
       <p className="product-card__price">${product.price.toFixed(2)}</p>
-    </article>
+    </button>
   )
 }
 
@@ -34,6 +40,8 @@ export type ProductListProps = {
 }
 
 export function ProductList({ products }: ProductListProps) {
+  const navigate = useNavigate()
+
   return (
     <section className="product-list-page">
       <h1 className="product-list-page__title">Products</h1>
@@ -43,7 +51,10 @@ export function ProductList({ products }: ProductListProps) {
       <ul className="product-list">
         {products.map((product) => (
           <li key={product.id}>
-            <ProductCard product={product} />
+            <ProductCard
+              product={product}
+              onSelect={(productId) => navigate(`/products/${productId}`)}
+            />
           </li>
         ))}
       </ul>

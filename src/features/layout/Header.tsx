@@ -1,31 +1,19 @@
-import type { AppView } from '../../shared/types/types'
+import { Link, NavLink } from 'react-router-dom'
 import type { User } from '../users/types/types'
 
 type HeaderProps = {
   user: User | null
-  activeView: AppView
-  onNavigate: (view: AppView) => void
   onSignIn: () => void
   onSignOut: () => void
 }
 
-export function Header({
-  user,
-  activeView,
-  onNavigate,
-  onSignIn,
-  onSignOut,
-}: HeaderProps) {
+export function Header({ user, onSignIn, onSignOut }: HeaderProps) {
   return (
     <header className="store-header">
       <div className="store-header__top">
-        <button
-          type="button"
-          className="store-logo"
-          onClick={() => onNavigate('home')}
-        >
+        <Link to="/" className="store-logo">
           Next Core
-        </button>
+        </Link>
 
         <div className="store-header__account">
           {user ? (
@@ -47,28 +35,31 @@ export function Header({
       </div>
 
       <nav className="store-nav" aria-label="Main">
-        <button
-          type="button"
-          className={`store-nav__link${activeView === 'products' ? ' is-active' : ''}`}
-          onClick={() => onNavigate('products')}
+        <NavLink
+          to="/products"
+          className={({ isActive }) =>
+            `store-nav__link${isActive ? ' is-active' : ''}`
+          }
         >
           Products
-        </button>
-        <button
-          type="button"
-          className={`store-nav__link${activeView === 'cart' ? ' is-active' : ''}`}
-          onClick={() => onNavigate('cart')}
+        </NavLink>
+        <NavLink
+          to="/cart"
+          className={({ isActive }) =>
+            `store-nav__link${isActive ? ' is-active' : ''}`
+          }
         >
           Cart
-        </button>
+        </NavLink>
         {user?.role === 'admin' && (
-          <button
-            type="button"
-            className={`store-nav__link${activeView === 'users' ? ' is-active' : ''}`}
-            onClick={() => onNavigate('users')}
+          <NavLink
+            to="/users"
+            className={({ isActive }) =>
+              `store-nav__link${isActive ? ' is-active' : ''}`
+            }
           >
             Users
-          </button>
+          </NavLink>
         )}
       </nav>
     </header>

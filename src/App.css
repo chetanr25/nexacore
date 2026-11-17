@@ -35,6 +35,7 @@
   letter-spacing: -0.02em;
   color: #ff9900;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .store-logo:hover {
@@ -86,6 +87,8 @@
   font: inherit;
   font-size: 0.95rem;
   cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .store-nav__link:hover,

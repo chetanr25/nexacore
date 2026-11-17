@@ -1,6 +1,6 @@
+import { Link } from 'react-router-dom'
 import type { Product } from '../types/types'
 import './ProductList.css'
-import ProductService from '../services/ProductService';
 
 export type ProductCardProps = {
   product: Product
@@ -44,7 +44,9 @@ export function ProductList({ products }: ProductListProps) {
       <ul className="product-list">
         {products.map((product) => (
           <li key={product.id}>
-            <ProductCard product={product} />
+            <Link className="product-card-link" to={`/products/${product.id}`}>
+              <ProductCard product={product} />
+            </Link>
           </li>
         ))}
       </ul>

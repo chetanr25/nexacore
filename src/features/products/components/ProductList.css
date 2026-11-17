@@ -25,6 +25,13 @@
   padding: 0;
 }
 
+.product-card-link {
+  display: block;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
 .product-card {
   display: flex;
   flex-direction: column;

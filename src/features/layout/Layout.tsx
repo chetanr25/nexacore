@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import type { AppView } from '../../shared/types/types'
 import type { User } from '../users/types/types'
 import { Header } from './Header'
+import { Outlet } from 'react-router-dom'
 
 type LayoutProps = {
   user: User | null
@@ -29,7 +30,8 @@ export function Layout({
         onSignIn={onSignIn}
         onSignOut={onSignOut}
       />
-      <main className="store-main">{children}</main>
+       {/* <main className="store-main">{children}</main> */}
+      <main className="store-main"><Outlet /></main>
     </div>
   )
 }

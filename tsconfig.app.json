@@ -4,8 +4,8 @@
     "target": "es2023",
     "lib": ["ES2023", "DOM"],
     "module": "esnext",
-    "types": ["vite/client"],
     "allowArbitraryExtensions": true,
+    "customConditions": ["module", "import", "browser", "default"],
     "skipLibCheck": true,
 
     /* Bundler mode */

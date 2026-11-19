@@ -7,6 +7,7 @@ import type { Product } from './features/products/types/types'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ProductDetailModal } from './features/products/components/ProductDetailModal'
 import { ProductsPage } from './features/products/components/ProductsPage'
+import { FeedbackPage } from './features/feedback/components/FeedbackPage'
 import { Layout } from './features/layout/Layout'
 
 
@@ -29,6 +30,7 @@ function App() {
         >
           <Route path="/" element={<HomeView />} />
           <Route path="/cart" element={<CartView />} />
+          <Route path="/feedback" element={<FeedbackPage />} />
           <Route path="/products" element={<ProductsPage products={products} />}>
             <Route path=":id" element={<ProductDetailModal />} />
           </Route>

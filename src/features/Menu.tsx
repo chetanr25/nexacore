@@ -8,6 +8,8 @@ function Menu(){
       <Link to="/products">Products</Link>
       {" | "}
       <Link to="/cart">Cart</Link>
+      {" | "}
+      <Link to="/feedback">Feedback</Link>
     </nav>
     )
 }

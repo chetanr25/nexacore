@@ -4,14 +4,19 @@ import type { Feedback } from '../types/types'
 import { FeedbackFormPlain } from './FeedbackFormPlain'
 import { FeedbackFormRhf } from './FeedbackFormRhf'
 import { FeedbackFormZod } from './FeedbackFormZod'
+import './FeedbackPage.css'
 
 type FormVariant = 'plain' | 'rhf' | 'zod'
 
-const VARIANTS: { id: FormVariant; label: string }[] = [
-  { id: 'plain', label: '1. Plain TS (if)' },
-  { id: 'rhf', label: '2. RHF (no Zod)' },
-  { id: 'zod', label: '3. RHF + Zod' },
+const VARIANTS: { id: FormVariant; label: string; short: string }[] = [
+  { id: 'plain', label: 'Plain TypeScript', short: 'if validation' },
+  { id: 'rhf', label: 'React Hook Form', short: 'no Zod' },
+  { id: 'zod', label: 'RHF + Zod', short: 'schema resolver' },
 ]
+
+function formatRating(value: string) {
+  return value.replace(/-/g, ' ')
+}
 
 export function FeedbackPage() {
   const [entries, setEntries] = useState<Feedback[]>([])
@@ -36,41 +41,75 @@ export function FeedbackPage() {
         ? FeedbackFormZod
         : FeedbackFormRhf
 
+  const activeVariant = VARIANTS.find((v) => v.id === variant)!
+
   return (
-    <section className="product-list-page">
-      <h1 className="product-list-page__title">Feedback</h1>
+    <section className="product-list-page feedback-page">
+      <header className="feedback-page__header">
+        <h1 className="product-list-page__title">Share your feedback</h1>
+        <p className="feedback-page__subtitle">
+          Tell us about your shopping experience. Compare three form styles below — same
+          validation rules, different implementation.
+        </p>
+      </header>
+
       {loadError && <p className="store-empty">{loadError}</p>}
 
-      <fieldset className="feedback-form__variant-picker">
-        <legend>Form implementation</legend>
-        {VARIANTS.map(({ id, label }) => (
-          <label key={id} className="feedback-form__radio">
-            <input
-              type="radio"
-              name="form-variant"
-              value={id}
-              checked={variant === id}
-              onChange={() => setVariant(id)}
-            />
+      <div className="feedback-page__tabs" role="tablist" aria-label="Form implementation">
+        {VARIANTS.map(({ id, label, short }) => (
+          <button
+            key={id}
+            type="button"
+            role="tab"
+            aria-selected={variant === id}
+            className={`feedback-page__tab${variant === id ? ' is-active' : ''}`}
+            onClick={() => setVariant(id)}
+          >
             {label}
-          </label>
+            <span className="feedback-form__hint"> · {short}</span>
+          </button>
         ))}
-      </fieldset>
+      </div>
 
-      <FormComponent onSubmitted={loadFeedback} />
+      <div className="feedback-page__layout">
+        <FormComponent onSubmitted={loadFeedback} />
 
-      {entries.length > 0 && (
-        <div className="feedback-list">
-          <h2>Recent submissions</h2>
-          <ul>
-            {entries.map((entry) => (
-              <li key={entry.id}>
-                <strong>{entry.title}</strong> — {entry.email}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+        <aside className="feedback-panel" aria-labelledby="recent-feedback-heading">
+          <h2 id="recent-feedback-heading" className="feedback-panel__title">
+            Recent submissions
+          </h2>
+
+          {entries.length === 0 ? (
+            <p className="feedback-panel__empty">
+              Nothing yet for <strong>{activeVariant.label}</strong>. Submit the form to see entries
+              here.
+            </p>
+          ) : (
+            <ul className="feedback-list">
+              {entries.map((entry) => (
+                <li key={entry.id} className="feedback-card">
+                  <h3 className="feedback-card__title">{entry.title}</h3>
+                  <p className="feedback-card__email">{entry.email}</p>
+                  <div className="feedback-card__meta">
+                    <span className="feedback-card__tag">
+                      Shop: {formatRating(entry.ratings.shoppingExperience)}
+                    </span>
+                    <span className="feedback-card__tag">
+                      Variety: {formatRating(entry.ratings.itemsVariety)}
+                    </span>
+                    <span className="feedback-card__tag">
+                      Support: {formatRating(entry.ratings.support)}
+                    </span>
+                  </div>
+                  <time className="feedback-card__time" dateTime={entry.submittedAt}>
+                    {new Date(entry.submittedAt).toLocaleString()}
+                  </time>
+                </li>
+              ))}
+            </ul>
+          )}
+        </aside>
+      </div>
     </section>
   )
 }

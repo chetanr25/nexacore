@@ -78,8 +78,6 @@ export function FeedbackFormPlain({ onSubmitted }: FeedbackFormProps) {
 
   return (
     <form className="feedback-form" onSubmit={onSubmit} noValidate>
-      <p className="feedback-form__variant-label">Variant: Plain TypeScript (if validation)</p>
-
       <label>
         Email <span aria-hidden="true">*</span>
         <input
@@ -104,18 +102,20 @@ export function FeedbackFormPlain({ onSubmitted }: FeedbackFormProps) {
           <legend>
             {label} <span aria-hidden="true">*</span>
           </legend>
-          {RATING_OPTIONS.map(({ value, label: optionLabel }) => (
-            <label key={value} className="feedback-form__radio">
-              <input
-                type="radio"
-                name={key}
-                value={value}
-                checked={form.ratings[key] === value}
-                onChange={() => setRating(key, value)}
-              />
-              {optionLabel}
-            </label>
-          ))}
+          <div className="feedback-form__rating-row">
+            {RATING_OPTIONS.map(({ value, label: optionLabel }) => (
+              <label key={value} className="feedback-form__radio">
+                <input
+                  type="radio"
+                  name={key}
+                  value={value}
+                  checked={form.ratings[key] === value}
+                  onChange={() => setRating(key, value)}
+                />
+                {optionLabel}
+              </label>
+            ))}
+          </div>
         </fieldset>
       ))}
 

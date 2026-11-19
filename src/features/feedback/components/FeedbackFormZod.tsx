@@ -54,8 +54,6 @@ export function FeedbackFormZod({ onSubmitted }: FeedbackFormProps) {
 
   return (
     <form className="feedback-form" onSubmit={handleSubmit(onValid)} noValidate>
-      <p className="feedback-form__variant-label">Variant: React Hook Form + Zod</p>
-
       <label>
         Email <span aria-hidden="true">*</span>
         <input
@@ -83,12 +81,14 @@ export function FeedbackFormZod({ onSubmitted }: FeedbackFormProps) {
             <legend>
               {label} <span aria-hidden="true">*</span>
             </legend>
-            {RATING_OPTIONS.map(({ value, label: optionLabel }) => (
-              <label key={value} className="feedback-form__radio">
-                <input type="radio" value={value} {...register(field)} />
-                {optionLabel}
-              </label>
-            ))}
+            <div className="feedback-form__rating-row">
+              {RATING_OPTIONS.map(({ value, label: optionLabel }) => (
+                <label key={value} className="feedback-form__radio">
+                  <input type="radio" value={value} {...register(field)} />
+                  {optionLabel}
+                </label>
+              ))}
+            </div>
             {fieldError && (
               <span className="feedback-form__error">{fieldError.message}</span>
             )}

@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { feedbackService } from '../services/FeedbackService'
 import type { FeedbackFormData, FeedbackRatings } from '../types/types'
-import { FeedbackFormProps, RATING_FIELDS, RATING_OPTIONS } from './feedbackFormShared'
+import { RATING_FIELDS, RATING_OPTIONS, type FeedbackFormProps } from './feedbackFormShared'
 
 type FeedbackFormValues = {
   email: string

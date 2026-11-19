@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { feedbackService } from '../services/FeedbackService'
 import type { FeedbackFormData, FeedbackRating, FeedbackRatings } from '../types/types'
-import { FeedbackFormProps, RATING_FIELDS, RATING_OPTIONS } from './feedbackFormShared'
+import { RATING_FIELDS, RATING_OPTIONS, type FeedbackFormProps } from './feedbackFormShared'
 
 type FeedbackFormState = {
   email: string

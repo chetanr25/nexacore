@@ -1,18 +1,18 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { useForm, type DefaultValues } from 'react-hook-form'
 import { feedbackService } from '../services/FeedbackService'
 import type { FeedbackFormData } from '../types/types'
 import { feedbackFormSchema, type FeedbackFormSchema } from './feedbackFormSchema'
-import { FeedbackFormProps, RATING_FIELDS, RATING_OPTIONS } from './feedbackFormShared'
+import { RATING_FIELDS, RATING_OPTIONS, type FeedbackFormProps } from './feedbackFormShared'
 
-const defaultValues: FeedbackFormSchema = {
+const defaultValues: DefaultValues<FeedbackFormSchema> = {
   email: '',
   title: '',
   comments: '',
   ratings: {
-    shoppingExperience: 'low',
-    itemsVariety: 'low',
-    support: 'low',
+    shoppingExperience: undefined,
+    itemsVariety: undefined,
+    support: undefined,
   },
 }
 

@@ -1,23 +1,13 @@
 import { useState, type FormEvent } from 'react'
 import { feedbackService } from '../services/FeedbackService'
 import type { FeedbackFormData, FeedbackRating, FeedbackRatings } from '../types/types'
+import {
+  useFeedbackDraft,
+  type FeedbackDraft,
+} from '../feedbackDraftContext'
 import { RATING_FIELDS, RATING_OPTIONS, type FeedbackFormProps } from './feedbackFormShared'
 
-type FeedbackFormState = {
-  email: string
-  title: string
-  comments: string
-  ratings: Partial<FeedbackRatings>
-}
-
-const EMPTY_FORM: FeedbackFormState = {
-  email: '',
-  title: '',
-  comments: '',
-  ratings: {},
-}
-
-function validateForm(data: FeedbackFormState): string | null {
+function validateForm(data: FeedbackDraft): string | null {
   const email = data.email.trim()
   if (!email) return 'Email is required.'
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'Enter a valid email address.'
@@ -36,7 +26,7 @@ function validateForm(data: FeedbackFormState): string | null {
 }
 
 export function FeedbackFormPlain({ onSubmitted }: FeedbackFormProps) {
-  const [form, setForm] = useState<FeedbackFormState>(EMPTY_FORM)
+  const { draft: form, setDraft: setForm, clearDraft } = useFeedbackDraft()
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
@@ -67,7 +57,7 @@ export function FeedbackFormPlain({ onSubmitted }: FeedbackFormProps) {
     setSubmitting(true)
     try {
       await feedbackService.submitFeedback(payload)
-      setForm(EMPTY_FORM)
+      clearDraft()
       onSubmitted?.()
     } catch (err) {
       setError((err as Error).message)

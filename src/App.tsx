@@ -9,6 +9,7 @@ import { ProductDetailModal } from './features/products/components/ProductDetail
 import { ProductsPage } from './features/products/components/ProductsPage'
 import { FeedbackPage } from './features/feedback/components/FeedbackPage'
 import { Layout } from './features/layout/Layout'
+import { FeedbackDraftProvider } from './features/feedback/feedbackDraftContext'
 
 
 function App() {
@@ -21,7 +22,8 @@ function App() {
   }, [])
 
   return (
-    <BrowserRouter>
+    <FeedbackDraftProvider>
+      <BrowserRouter>
       <Routes>
         <Route
           element={
@@ -36,7 +38,8 @@ function App() {
           </Route>
         </Route>
       </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+    </FeedbackDraftProvider>
   )
 }
 

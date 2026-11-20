@@ -1,4 +1,9 @@
 import { useForm } from 'react-hook-form'
+import {
+  EMPTY_FEEDBACK_DRAFT,
+  useFeedbackDraft,
+  useSyncRhfToDraft,
+} from '../feedbackDraftContext'
 import { feedbackService } from '../services/FeedbackService'
 import type { FeedbackFormData, FeedbackRatings } from '../types/types'
 import { RATING_FIELDS, RATING_OPTIONS, type FeedbackFormProps } from './feedbackFormShared'
@@ -10,22 +15,22 @@ type FeedbackFormValues = {
   ratings: Partial<FeedbackRatings>
 }
 
-const defaultValues: FeedbackFormValues = {
-  email: '',
-  title: '',
-  comments: '',
-  ratings: {},
-}
-
 export function FeedbackFormRhf({ onSubmitted }: FeedbackFormProps) {
+  const { draft, clearDraft } = useFeedbackDraft()
+
   const {
     register,
     handleSubmit,
-    reset,
     watch,
     setError,
     formState: { errors, isSubmitting },
-  } = useForm<FeedbackFormValues>({ defaultValues, mode: 'onBlur' })
+  } = useForm<FeedbackFormValues>({
+    defaultValues: EMPTY_FEEDBACK_DRAFT,
+    values: draft,
+    mode: 'onBlur',
+  })
+
+  useSyncRhfToDraft(watch)
 
   const comments = watch('comments')
 
@@ -39,7 +44,7 @@ export function FeedbackFormRhf({ onSubmitted }: FeedbackFormProps) {
 
     try {
       await feedbackService.submitFeedback(payload)
-      reset(defaultValues)
+      clearDraft()
       onSubmitted?.()
     } catch (err) {
       setError('root.server', {

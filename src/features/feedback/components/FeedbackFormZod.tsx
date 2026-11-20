@@ -1,11 +1,16 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, type DefaultValues } from 'react-hook-form'
+import {
+  useFeedbackDraft,
+  useSyncRhfToDraft,
+  type FeedbackDraft,
+} from '../feedbackDraftContext'
 import { feedbackService } from '../services/FeedbackService'
 import type { FeedbackFormData } from '../types/types'
 import { feedbackFormSchema, type FeedbackFormSchema } from './feedbackFormSchema'
 import { RATING_FIELDS, RATING_OPTIONS, type FeedbackFormProps } from './feedbackFormShared'
 
-const defaultValues: DefaultValues<FeedbackFormSchema> = {
+const emptyZodValues: DefaultValues<FeedbackFormSchema> = {
   email: '',
   title: '',
   comments: '',
@@ -16,19 +21,36 @@ const defaultValues: DefaultValues<FeedbackFormSchema> = {
   },
 }
 
+function draftToZodValues(draft: FeedbackDraft): DefaultValues<FeedbackFormSchema> {
+  return {
+    email: draft.email,
+    title: draft.title,
+    comments: draft.comments,
+    ratings: {
+      shoppingExperience: draft.ratings.shoppingExperience,
+      itemsVariety: draft.ratings.itemsVariety,
+      support: draft.ratings.support,
+    },
+  }
+}
+
 export function FeedbackFormZod({ onSubmitted }: FeedbackFormProps) {
+  const { draft, clearDraft } = useFeedbackDraft()
+
   const {
     register,
     handleSubmit,
-    reset,
     watch,
     setError,
     formState: { errors, isSubmitting },
   } = useForm<FeedbackFormSchema>({
-    defaultValues,
+    defaultValues: emptyZodValues,
+    values: draftToZodValues(draft) as FeedbackFormSchema,
     resolver: zodResolver(feedbackFormSchema),
     mode: 'onBlur',
   })
+
+  useSyncRhfToDraft(watch)
 
   const comments = watch('comments')
 
@@ -42,7 +64,7 @@ export function FeedbackFormZod({ onSubmitted }: FeedbackFormProps) {
 
     try {
       await feedbackService.submitFeedback(payload)
-      reset(defaultValues)
+      clearDraft()
       onSubmitted?.()
     } catch (err) {
       setError('root.server', {
